@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock, Paper, Scissors Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            margin: auto;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        .result {
+            font-size: 24px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .choices button {
+            font-size: 20px;
+            padding: 15px;
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Rock, Paper, Scissors</h1>
+        <div class="choices">
+            <button class="button" onclick="userChoice('rock')">Rock</button>
+            <button class="button" onclick="userChoice('paper')">Paper</button>
+            <button class="button" onclick="userChoice('scissors')">Scissors</button>
+        </div>
+        <div class="result" id="result">Choose an option to play</div>
+    </div>
+
+    <script>
+        function getComputerChoice() {
+            const choices = ['rock', 'paper', 'scissors'];
+            const randomChoice = Math.floor(Math.random() * 3);  
+            return choices[randomChoice];
+        }
+
+        function userChoice(userSelection) {
+            const computerSelection = getComputerChoice();
+            let result = '';
+
+            if (userSelection === computerSelection) {
+                result = "It's a tie!";
+            } else if (
+                (userSelection === 'rock' && computerSelection === 'scissors') ||
+                (userSelection === 'paper' && computerSelection === 'rock') ||
+                (userSelection === 'scissors' && computerSelection === 'paper')
+            ) {
+                result = `You win! ${capitalize(userSelection)} beats ${capitalize(computerSelection)}.`;
+            } else {
+                result = `You lose! ${capitalize(computerSelection)} beats ${capitalize(userSelection)}.`;
+            }
+
+            document.getElementById('result').textContent = `Computer chose ${capitalize(computerSelection)}. ${result}`;
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation with Live Feedback</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+
+        .form-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .form-container input.invalid {
+            border-color: red;
+        }
+
+        .form-container input.valid {
+            border-color: green;
+        }
+
+        .form-container span {
+            color: red;
+            font-size: 12px;
+        }
+
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Sign Up</h2>
+        <form id="signUpForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your name" oninput="validateName()">
+            <span id="nameError"></span>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" oninput="validateEmail()">
+            <span id="emailError"></span>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" placeholder="Enter your password" oninput="validatePassword()">
+            <span id="passwordError"></span>
+
+            <button type="submit" id="submitBtn" disabled>Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        function validateName() {
+            const name = document.getElementById("name");
+            const nameError = document.getElementById("nameError");
+
+            if (name.value.trim() === "") {
+                name.classList.add("invalid");
+                name.classList.remove("valid");
+                nameError.textContent = "Name must not be empty.";
+                disableSubmit();
+            } else {
+                name.classList.add("valid");
+                name.classList.remove("invalid");
+                nameError.textContent = "";
+                enableSubmit();
+            }
+        }
+
+        function validateEmail() {
+            const email = document.getElementById("email");
+            const emailError = document.getElementById("emailError");
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(email.value)) {
+                email.classList.add("invalid");
+                email.classList.remove("valid");
+                emailError.textContent = "Email must be a valid format.";
+                disableSubmit();
+            } else {
+                email.classList.add("valid");
+                email.classList.remove("invalid");
+                emailError.textContent = "";
+                enableSubmit();
+            }
+        }
+
+        function validatePassword() {
+            const password = document.getElementById("password");
+            const passwordError = document.getElementById("passwordError");
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+            if (!passwordRegex.test(password.value)) {
+                password.classList.add("invalid");
+                password.classList.remove("valid");
+                passwordError.textContent = "Password must be at least 8 characters with 1 uppercase & 1 number.";
+                disableSubmit();
+            } else {
+                password.classList.add("valid");
+                password.classList.remove("invalid");
+                passwordError.textContent = "";
+                enableSubmit();
+            }
+        }
+
+        function disableSubmit() {
+            document.getElementById("submitBtn").disabled = true;
+        }
+
+        function enableSubmit() {
+            const name = document.getElementById("name").classList.contains("valid");
+            const email = document.getElementById("email").classList.contains("valid");
+            const password = document.getElementById("password").classList.contains("valid");
+
+            if (name && email && password) {
+                document.getElementById("submitBtn").disabled = false;
+            }
+        }
+
+        disableSubmit();
+    </script>
+
+</body>
+</html>
